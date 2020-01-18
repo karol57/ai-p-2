@@ -25,9 +25,9 @@ int startApplication(const Options& o)
     for (size_t i = 0u; i < o.population; ++i)
     {
         individuals.push_back(rng);
-        std::cout << "Individual " << i << ". " << individuals.back()
-                  << " value " << static_cast<unsigned>(individuals.back().value())
-                  << " func " << func(individuals.back().value()) <<  std::endl;
+        std::cout << "Individual " << i << ": " << individuals.back()
+                  << " phenotype " << static_cast<unsigned>(individuals.back().value())
+                  << " fitness " << func(individuals.back().value()) <<  std::endl;
     }
 
     return 0;
