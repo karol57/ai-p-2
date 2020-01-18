@@ -6,6 +6,6 @@ set(CMAKE_CXX_FLAGS_DEBUG  "-ggdb3")
 
 find_package(Boost REQUIRED program_options)
 
-add_executable(SIProj2 main.cpp Application.cpp Chromosome.cpp)
+add_executable(SIProj2 main.cpp Application.cpp Function.cpp Chromosome.cpp)
 target_include_directories(SIProj2 SYSTEM PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(SIProj2 ${Boost_LIBRARIES})

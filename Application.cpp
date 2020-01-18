@@ -1,5 +1,6 @@
 #include "Application.hpp"
 #include "Chromosome.hpp"
+#include "Function.hpp"
 #include <random>
 #include <iostream>
 #include <vector>
@@ -11,7 +12,9 @@
 
 int startApplication(const Options& o)
 {
+    Function func{ o.a, o.b, o.c, o.d, o.e };
     std::cout << "=== Starting simulation ===" << std::endl;
+    std::cout << func << std::endl;
     std::cout << "p_m: " << o.mutationProb << std::endl;
     std::cout << "p_c: " << o.crossOverProb << std::endl;
     std::cout << "Population: " << o.population << std::endl;
@@ -23,7 +26,8 @@ int startApplication(const Options& o)
     {
         individuals.push_back(rng);
         std::cout << "Individual " << i << ". " << individuals.back()
-                  << " value " << static_cast<unsigned>(individuals.back().value()) <<  std::endl;
+                  << " value " << static_cast<unsigned>(individuals.back().value())
+                  << " func " << func(individuals.back().value()) <<  std::endl;
     }
 
     return 0;
