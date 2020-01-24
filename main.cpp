@@ -10,7 +10,7 @@ int main(int argc, char * argv[])
         namespace po = boost::program_options;
         boost::program_options::options_description desc(
             "This program searches for local minima x E [0;255] of function\n"
-            "(a * sin(b * x) - c * cos(d * x) + a + c) / log(x + e)\n"
+            "f(x) = (a * sin(b * x) - c * cos(d * x) + a + c) / log(x + e)\n"
             "Allowed options");
         desc.add_options()
             ("help", "show this message")

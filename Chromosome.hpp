@@ -1,14 +1,12 @@
 #pragma once
 
 #include <cstdint>
-#include <random>
 #include <ostream>
 
 class Chromosome
 {
 public:
-    template<class RNG>
-    Chromosome(RNG&& rng) : m_bits{ std::uniform_int_distribution<uint8_t>()(rng) } { }
+    Chromosome(uint8_t bits) noexcept : m_bits{bits } { }
 
     void set(unsigned);
     void reset(unsigned);

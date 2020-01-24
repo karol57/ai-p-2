@@ -21,13 +21,58 @@ int startApplication(const Options& o)
 
     std::mt19937_64 rng{ std::random_device()() };
 
-    std::vector<Chromosome> individuals;
+    double fitnessSum = 0.0;
+    std::vector<std::pair<Chromosome, double>> individuals;
     for (size_t i = 0u; i < o.population; ++i)
     {
-        individuals.push_back(rng);
-        std::cout << "Individual " << i << ": " << individuals.back()
-                  << " phenotype " << static_cast<unsigned>(individuals.back().value())
-                  << " fitness " << func(individuals.back().value()) <<  std::endl;
+        Chromosome ch{ std::uniform_int_distribution<uint8_t>()(rng) };
+        const double fitness = func(ch.value());
+        individuals.emplace_back(ch, fitness);
+        fitnessSum += fitness;
+    }
+
+    const auto dumpIndividuals
+        = [&fitnessSum](const std::vector<std::pair<Chromosome, double>>& individuals)
+        {
+            for (const auto& [individual, fitness] : individuals)
+            {
+                std::cout << individual << " phenotype " << static_cast<unsigned>(individual.value())
+                        << " fitness " << fitness
+                        << " probability " << fitness / fitnessSum <<  std::endl;
+            }
+        };
+
+    std::cout << "--- Generated individuals ---" << std::endl;
+    dumpIndividuals(individuals);
+
+    for (std::size_t i = 0; i < 10; ++i)
+    {
+        std::cout << "=== Iteration " << i << " ===" << std::endl;
+
+        std::vector<std::pair<Chromosome, double>> newGeneration;
+
+        for (size_t i = 0u; i < individuals.size(); ++i)
+        {
+            std::uniform_real_distribution<double> fitnessDist{ 0.0, fitnessSum };
+            const double rndFit = fitnessDist(rng);
+
+            auto it = individuals.cbegin();
+            double sum = it->second;
+            while (sum < rndFit)
+                sum += (++it)->second;
+            newGeneration.emplace_back(*it);
+        }
+        dumpIndividuals(newGeneration);
+
+        std::cout << "--- Crossing ---" << std::endl;
+
+        std::cout << "--- Mutating ---" << std::endl;
+
+        individuals = std::move(newGeneration);
+
+        // fitnessSum = 0.0;
+        // for (const auto& [_, fitness] : individuals)
+        //     fitnessSum += fitness;
     }
 
     return 0;
